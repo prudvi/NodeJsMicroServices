@@ -1,5 +1,5 @@
 # NodeJsMicroServices
-employeeApp= Node and Angular Service tightly Coupled with Monodb
+employeeApp= Nodejs(with mongodb Connection) as backend and Angular app(Angular6) Service 
 
 m1 = Micro Service
 
