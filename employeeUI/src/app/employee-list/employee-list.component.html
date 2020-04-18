@@ -1,0 +1,40 @@
+<div class="text-small">
+  employee-list works! 
+  <a routerLink="/">
+    <span class="badge">Home</span> 
+  </a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>userId</th>
+        <th>jobTitleName</th>
+        <th>firstName</th>
+        <th>lastName</th>
+        <th>preferredFullName</th>
+        <th>employeeCode</th>
+        <th>region</th>
+        <th>phoneNumber</th>
+        <th>emailAddress</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of employeeList">
+        <td>{{item.userId}}</td>
+        <td>{{item.jobTitleName}}</td>
+        <td>{{item.firstName}}</td>
+        <td>{{item.lastName}}</td>
+        <td>{{item.preferredFullName}}</td>
+        <td>{{item.employeeCode}}</td>
+        <td>{{item.region}}</td>
+        <td>{{item.phoneNumber}}</td>
+        <td>{{item.emailAddress}}</td>
+        <td> <a routerLink="/employee/{{item.employeeCode}}">
+          <span class="badge">Edit</span> 
+        </a> <a style="cursor: pointer;" (click)="deleteEmployee(item.employeeCode)">
+          <span class="badge redClass">Delete</span> 
+        </a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

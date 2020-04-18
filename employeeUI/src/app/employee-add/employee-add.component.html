@@ -1,0 +1,120 @@
+
+<p>Employee-Add Form <a routerLink="/"> <span class="badge">Home</span> </a></p>
+
+<form #editForm="ngForm">
+	<div class="form-group row">
+		<div class="col-xs-3 setInput">
+			<label for="userId">User ID</label>
+			<input type="text" class="form-control" id="userId"
+					required [(ngModel)]="model.userId" name="userId"
+					#userId="ngModel">
+			
+			<div [hidden]="!userId.errors?.required || !userId.touched || !userId.pristine" 
+			class="alert alert-danger input-validation"> userId is required
+			</div>
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="jobTitleName">JobTitle Name</label>
+			<input class="form-control" id="jobTitleName" required
+			[(ngModel)]="model.jobTitleName"
+				name="jobTitleName" #jobTitleName="ngModel">
+
+
+			<div [hidden]="!jobTitleName.errors?.required || !jobTitleName.touched" 
+			class="alert alert-danger input-validation"> jobTitleName is required
+			</div>
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="firstName">First Name</label>
+			<input class="form-control" id="firstName" type="text" required
+			[(ngModel)]="model.firstName"
+				name="firstName" #firstName="ngModel">
+
+			<div [hidden]="!firstName.errors?.required || !firstName.touched" 
+			class="alert alert-danger input-validation"> firstName is required
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-xs-3 setInput">
+			<label for="lastName">Last Name</label>
+			<input type="text" class="form-control" id="lastName"
+					required
+					[(ngModel)]="model.lastName" name="lastName"
+					#lastName="ngModel">
+
+			<div [hidden]="!lastName.errors?.required || !lastName.touched" 
+				class="alert alert-danger input-validation"> LastName is required
+			</div>
+			
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="preferredFullName">Preferred FullName </label>
+			<input class="form-control" id="preferredFullName" type="text" 
+			required
+			[(ngModel)]="model.preferredFullName"
+				name="preferredFullName" #preferredFullName="ngModel">
+
+			<div [hidden]="!preferredFullName.errors?.required || !preferredFullName.touched" 
+				class="alert alert-danger input-validation"> Preferred FullName is required
+			</div>
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="employeeCode">Employee Code</label>
+			<input class="form-control" id="employeeCode" required 
+			[(ngModel)]="model.employeeCode"
+			type="text" name="employeeCode" [disabled]="isEdit" #employeeCode="ngModel">
+
+			<div [hidden]="!employeeCode.errors?.required || !employeeCode.touched" 
+				class="alert alert-danger input-validation"> Employee Code is required
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-xs-3 setInput">
+			<label for="userId">Region</label>
+			<input type="text" class="form-control" id="region"
+					required
+					[(ngModel)]="model.region" name="region"
+					#region="ngModel">
+				
+			<div [hidden]="!region.errors?.required || !region.touched" 
+				class="alert alert-danger input-validation"> Region is required
+			</div>
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="phoneNumber">Phone Number</label>
+			<input class="form-control" id="phoneNumber" type="text" required
+				[(ngModel)]="model.phoneNumber" name="phoneNumber"
+				#phoneNumber="ngModel">
+			
+			<div [hidden]="!phoneNumber.errors?.required || !phoneNumber.touched" 
+				class="alert alert-danger input-validation"> Phone Number is required
+			</div>
+		</div>
+		<div class="col-xs-3 setInput">
+			<label for="emailAddress">Email Address</label>
+			<input class="form-control" id="emailAddress" type="text" required
+				[(ngModel)]="model.emailAddress" name="emailAddress"
+			#emailAddress="ngModel">
+			<div [hidden]="!emailAddress.errors?.required || !emailAddress.touched" 
+				class="alert alert-danger input-validation"> Email Address is required
+			</div>
+		</div>
+	</div>
+
+	<button style="margin:0 20px;" type="submit" class="btn btn-success" 
+			[disabled]="!editForm.form.valid" (click)="addORUpdate(editForm)">
+			
+			{{buttonText}}
+	</button>
+	
+	<button type="button" class="btn btn-default" (click)="cancel(editForm)">
+		Cancel
+	</button>
+
+
+</form>
+
