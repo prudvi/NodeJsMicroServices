@@ -1,10 +1,10 @@
 var mongoUtil = require( '../config/mongo_db_connection' );
 
 module.exports = function(app ) {
-    app.get('/employeesList', (req, res) => {
-        console.log("Employee List"+db);
-        var db = mongoUtil.getDatabaseName();
-        db.collection("employees").find().limit(10).sort({_id: -1}).toArray(function(err, result) {
+    app.get('/usersList', (req, res) => {
+        console.log("user List"+db);
+        let db = mongoUtil.getDatabaseName();
+        db.collection("users").find().toArray(function(err, result) {
             if (err) {
                 res.send({ 'error': 'An error has occurred while fetching list from DB' }); 
             } else {
@@ -13,10 +13,10 @@ module.exports = function(app ) {
         });
     });
 
-    app.post('/employee', (req, res) => {
-        const employee = req.body;
-        var db = mongoUtil.getDatabaseName();
-        db.collection('employees').insertOne(employee, (err, result) => {
+    app.post('/user', (req, res) => {
+        const user = req.body;
+        let db = mongoUtil.getDatabaseName();
+        db.collection('users').insertOne(user, (err, result) => {
             if (err) { 
               res.send({ 'error': 'An error has occurred while saving into DB' }); 
             } else {
@@ -25,10 +25,10 @@ module.exports = function(app ) {
         });
     });
 
-    app.get('/employee/:id', (req, res) => {
-        var query = { employeeCode: req.params.id };
-        var db = mongoUtil.getDatabaseName();
-        db.collection("employees").find(query).toArray(function(err, result) {
+    app.get('/user/:id', (req, res) => {
+        var query = { userCode: req.params.id };
+        let db = mongoUtil.getDatabaseName();
+        db.collection("users").find(query).toArray(function(err, result) {
             if (err) {
                 res.send({ 'error': 'An error has occurred while fetching into DB' }); 
             } else {
@@ -39,10 +39,10 @@ module.exports = function(app ) {
         
     });
 
-    app.delete('/employee/:id', (req, res) => {
-        var query = { employeeCode: req.params.id };
-        var db = mongoUtil.getDatabaseName();
-        db.collection("employees").deleteOne(query, function(err, result) {
+    app.delete('/user/:id', (req, res) => {
+        var query = { userCode: req.params.id };
+        let db = mongoUtil.getDatabaseName();
+        db.collection("users").deleteOne(query, function(err, result) {
             if (err) {
                 res.send({ 'error': 'An error has occurred while deleeting from DB' }); 
             } else {
@@ -51,21 +51,18 @@ module.exports = function(app ) {
         });
     });
 
-    app.post('/employee/:id', (req, res) => {
-        var query = { employeeCode: req.params.id };
-        var db = mongoUtil.getDatabaseName();
-        //let newEmp = req.body;
+    app.post('/user/:id', (req, res) => {
+        var query = { userCode: req.params.id };
+        let db = mongoUtil.getDatabaseName();
+        //let newuser = req.body;
         let newObj = { $set: {
                             "userId": req.body.userId,
-                            "jobTitleName": req.body.jobTitleName,
                             "firstName": req.body.firstName,
                             "lastName": req.body.lastName,
                             "preferredFullName":req.body.preferredFullName,
-                            "region": req.body.region,
-                            "phoneNumber": req.body.phoneNumber,
-                            "address": req.body.address 
-                    }}
-        db.collection("employees").updateOne(query,newObj , function(err, result) {
+                            "phoneNumber": req.body.phoneNumber
+                    }};
+        db.collection("users").updateOne(query,newObj , function(err, result) {
             if (err) {
                 res.send({ 'error': 'An error has occurred newObj deleeting from DB' }); 
             } else {

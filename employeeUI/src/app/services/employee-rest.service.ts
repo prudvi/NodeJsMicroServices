@@ -34,7 +34,7 @@ export class EmployeeRestService {
   }
   
   addEmployee (employee): Observable<any> {
-    console.log(employee);
+    console.log(":::"+JSON.stringify(employee));
     return this.http.post<any>( 'employee', JSON.stringify(employee), this.httpOptions).pipe(
       tap((product) => console.log(`added employee w/ id=${employee.employeeCode}`)),
       catchError(this.handleError<any>('addEmployee'))

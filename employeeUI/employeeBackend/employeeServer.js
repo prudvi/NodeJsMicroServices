@@ -1,28 +1,23 @@
 const express        = require('express');
-const MongoClient    = require('mongodb').MongoClient;
 const bodyParser     = require('body-parser');
 const employeeServiceApp = express();
+
+const dbConnection = require('./config/mongo_db_connection');
+const appConf =  require('./config/application_config');
+const routes = require('./routes');
+
+
 employeeServiceApp.use(express.static(__dirname + '/public')); 
-const db             = require('./config/mongodb_config');
-
-const port = 8000;
-
-//employeeServiceApp.use(express.bodyParser());
 employeeServiceApp.use(bodyParser.json());
 employeeServiceApp.use(bodyParser.urlencoded({ extended: true }));
+routes(employeeServiceApp);
 
-MongoClient.connect(db.url, {useNewUrlParser: true}, (err, database) => {
-    if (err) return console.log('error:::', err);
-    // Make sure you add the database name and not the collection name
-    let dbCon = database.db("employeeDB")
-    require('./routes')(employeeServiceApp, dbCon);
-    employeeServiceApp.listen(port, () => {
-      console.log('We are live on ' + port);
-    });               
-})
+dbConnection.connectToServer( function( err, client ) {
+  if (err)  { console.error('error:In Connecting Mongo DB Server::', err); return; }
+  console.log(" database Connection Success ful");
+  
+  employeeServiceApp.listen(appConf.server_port, () => {
+    console.log('We are live on ' + appConf.server_port);
+  });       
 
-//require('./routes')(employeeServiceApp, {});
-
-// employeeServiceApp.listen(port, () => {
-//   console.log('We are live on ' + port);
-// });
+} );
