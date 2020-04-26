@@ -1,4 +1,5 @@
 var mongoUtil = require( '../config/mongo_db_connection' );
+var logger = require('../config/logger');
 
 module.exports = function(app ) {
     app.get('/employeesList', (req, res) => {
@@ -6,8 +7,10 @@ module.exports = function(app ) {
         var db = mongoUtil.getDatabaseName();
         db.collection("employees").find().limit(10).sort({_id: -1}).toArray(function(err, result) {
             if (err) {
+                logger.logger.info("Welcome to Employee  error List");
                 res.send({ 'error': 'An error has occurred while fetching list from DB' }); 
             } else {
+                logger.logger.debug('Employee List to get from MongoDB');
                 res.send(result);
             }
         });
@@ -17,9 +20,11 @@ module.exports = function(app ) {
         const employee = req.body;
         var db = mongoUtil.getDatabaseName();
         db.collection('employees').insertOne(employee, (err, result) => {
-            if (err) { 
+            if (err) {
+                logger.logger.error('An error has occurred while saving into DB');
               res.send({ 'error': 'An error has occurred while saving into DB' }); 
             } else {
+                logger.logger.debug('Add Employee UPDATE employee/:id ');
               res.send(result.ops[0]);
             }
         });
@@ -32,6 +37,7 @@ module.exports = function(app ) {
             if (err) {
                 res.send({ 'error': 'An error has occurred while fetching into DB' }); 
             } else {
+                logger.logger.debug('GET employee/:id ');
                 res.send(result);
             }
            
@@ -46,6 +52,7 @@ module.exports = function(app ) {
             if (err) {
                 res.send({ 'error': 'An error has occurred while deleeting from DB' }); 
             } else {
+                logger.logger.debug('DELTE employee/:id ');
                 res.send(result);
             }
         });
@@ -69,6 +76,7 @@ module.exports = function(app ) {
             if (err) {
                 res.send({ 'error': 'An error has occurred newObj deleeting from DB' }); 
             } else {
+                logger.logger.debug('POST UPDATE employee/:id ');
                 res.send(result);
             }
         });
