@@ -1,5 +1,5 @@
 const mongoClient = require( 'mongodb' ).MongoClient;
-const appConf =  require('./application_config');
+const appConf =  require('./application_config.dev');
 
 var database;
 
