@@ -3,12 +3,13 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const controller = require('./controller');
-
+const mail = require('./../common/mail');
 
 module.exports = function(app) {   
     app.use(bodyParser.json());
     app.get('/heroes', (req, res) => { 
         console.log('Returning heroes list');
+        mail.sendMail();
         res.send(controller.heroes);
     });
     app.get('/powers', (req, res) => {
