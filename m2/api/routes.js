@@ -33,6 +33,13 @@ module.exports = function(app) {   
             console.log(`Hero not found.`);res.status(404).send();      
           }    
     });
+    app.post('/receiveData', async (req, res) => { 
+        let data = req.body.data;
+        //{AnnualReport: [], presentation: [], outcomes: [], topImportant: []}
+        await mail.sendMail(data);
+        res.status(200).header({Location: `http://localhost`}).
+        send(data);
+    });
     app.use('/img', express.static(path.join(__dirname,'img')));
 };
 

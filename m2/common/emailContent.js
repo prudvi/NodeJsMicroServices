@@ -1,0 +1,42 @@
+const mailContent1 =`<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
+    <title>Stock Updates</title>
+</head>
+
+<body style=\"background-color: #e1e1e1; font-family: Arial, Helvetica, sans-serif;\">
+    <main style=\"max-width: 680px;width: 100%; margin: auto;\">
+        <div style=\"padding: 20px;
+        background-color: white;
+        font-family: Geneva, Tahoma, Verdana, sans-serif; 
+        font-size: 16px; 
+        line-height: 22px; 
+        color: #555555; \">
+            <h2 style=\"font-weight: 300;
+            color: #464646;\">Enjoy the stock Market silence</h2>
+            <ul>`;
+const mailContent2 = `</ul>
+            <button style=\"background-color: #0c99d5;
+            border: none;
+            color: white;
+            border-radius: 2px;
+            height: 50px;
+            max-width: 250px;
+           padding: 0px 30px;
+            font-weight: 500;
+            font-family: Geneva, Tahoma, Verdana, sans-serif; 
+            font-size: 16px;
+            margin: 10px 0px 30px 0px;\">FIND OUT MORE</button>
+        </div>
+    </main>
+</div>    
+</body>
+</html>
+`;
+module.exports ={
+    mailContent1,
+    mailContent2
+}
