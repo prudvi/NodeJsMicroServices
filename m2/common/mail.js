@@ -2,7 +2,7 @@
 const nodemailer = require("nodemailer");
 var smtpTransport = require('nodemailer-smtp-transport');
 // async..await is not allowed in global scope, must use a wrapper
-function main() {
+async function main() {
 
   // create reusable transporter object using the default SMTP transport
   var transporter = nodemailer.createTransport(smtpTransport({
