@@ -8,7 +8,8 @@ async function main(data) {
   let subjectText = '';
   if (data.length) {
     for (let x=0; x<data.length; x++) {
-      subjectText += '<li style=\"color: green; font-size: 14px; font-style: italic;\">' + data[x] + '</li>';
+      subjectText += `<li style=\"color: green; font-size: 14px; font-style: italic;\">${data[x].name}
+      &nbsp;&nbsp;&nbsp;&nbsp<a href=\"${data[x].linkName}\"> Link</a></li>`;
     }
   }
   // create reusable transporter object using the default SMTP transport
@@ -16,15 +17,15 @@ async function main(data) {
     service: 'gmail',
     host: 'smtp.gmail.com',
     auth: {
-      user: 'prudvi2k7@gmail.com',
-      pass: 'godjesus9642200931'
+      user: 'udayarekhamulinti@gmail.com',
+      pass: 'PASSWORD'
     }
   }));
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: 'prudvi2k7@gmail.com', // sender address
-    to: "prudvi2k77@icloud.com", // list of receivers
+    from: 'udayarekhamulinti@gmail.com', // sender address
+    to: "prudvi2k7@gmail.com", // list of receivers
     subject: "Regular Updates on Stock", // Subject line
     //text: subjectText, // plain text body
     html: emailContent1 + subjectText + emailContent2 // html body
