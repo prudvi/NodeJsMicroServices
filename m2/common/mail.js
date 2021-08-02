@@ -18,7 +18,7 @@ async function main(data) {
     host: 'smtp.gmail.com',
     auth: {
       user: 'udayarekhamulinti@gmail.com',
-      pass: 'Minnu123r'
+      pass: ''
     }
   }));
 
