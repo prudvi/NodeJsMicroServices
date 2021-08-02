@@ -4,7 +4,7 @@ var smtpTransport = require('nodemailer-smtp-transport');
 const { emailContent1, emailContent2 } = require('./emailContent');
 // async..await is not allowed in global scope, must use a wrapper
 async function main(data) {
-
+ //data = data.unshift();
   let subjectText = '';
   if (data.length) {
     for (let x=0; x<data.length; x++) {
@@ -18,17 +18,18 @@ async function main(data) {
     host: 'smtp.gmail.com',
     auth: {
       user: 'udayarekhamulinti@gmail.com',
-      pass: 'PASSWORD'
+      pass: 'Minnu123r'
     }
   }));
 
+  let emailBody = emailContent1 + subjectText + emailContent2
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: 'udayarekhamulinti@gmail.com', // sender address
     to: "prudvi2k7@gmail.com", // list of receivers
-    subject: "Regular Updates on Stock", // Subject line
+    subject: data[0].subject, // Subject line
     //text: subjectText, // plain text body
-    html: emailContent1 + subjectText + emailContent2 // html body
+    html: emailBody
   });
 
   console.log("Message sent: %s", info.messageId);
