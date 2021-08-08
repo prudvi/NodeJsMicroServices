@@ -60,7 +60,6 @@ function getAnnualreport(index) {
 }
 
 function sUpdates() {
-    console.log("::Current TimeUpdates:::", new Date());
     let totalRecords = xpath('//*[@id="lblann"]/table/tbody/tr[4]/td/table').length;
     for (let x=0;x<totalRecords; x++) {
         let eachRecordDataLength = xpath('//*[@id="lblann"]/table/tbody/tr[4]/td/table['+x+']/tbody/tr').length;
@@ -72,7 +71,7 @@ function sUpdates() {
         }
     }
 }
-
+console.log("::START TimeUpdates:::", new Date());
 //Click the last Button
 $x('//*[@id="fontSize"]/div[2]/div[2]/div[1]/div[1]/ul/li[10]/a')[0].click();
 
@@ -104,3 +103,4 @@ if (annualReports.length > 0) {
     to subscribe users */
     postData(annualReports);
 }
+console.log("::END TimeUpdates:::", new Date());

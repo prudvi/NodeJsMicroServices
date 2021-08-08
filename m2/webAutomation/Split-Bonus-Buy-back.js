@@ -1,20 +1,21 @@
+let responseCode = 500;
 function postData(data){
 	var ajaxRequest = new XMLHttpRequest();
 	ajaxRequest.onreadystatechange = function(){
-		if (ajaxRequest.readyState === 4){
-			if (ajaxRequest.status === 200){
-				var HERO = JSON.parse(ajaxRequest.responseText);
-	        }
-		}			
+		if (ajaxRequest.readyState === 4 && ajaxRequest.status === 200) {
+            responseCode = 200;
+            let jsonResponse =  JSON.parse(ajaxRequest.responseText);
+        }		
 	}
 	ajaxRequest.open('POST', 'http://localhost:3001/receiveData');
 	ajaxRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 	ajaxRequest.send(JSON.stringify({data: data}));
 }
 
-// execute every 60 seconds
-let timeLimit = 60 * 1000;
-let timeoutObj = null;
+
+// execute every 30 seconds
+let timeLimit = 30 * 1000;
+let timeoutObject = null;
 let outcomesArray = [];
 let bonusArray= [];
 let presentationArray = [];
@@ -75,29 +76,32 @@ function getPresentation(index) {
 
 function getBonusSplitAndBuyBack(index) {
     const { detailsLink, cName, time, type } = getRowObject(index);
+    //console.log(type);
+    // bonusArray.push({ name: cName  + ' At ' + time, linkName: detailsLink, time, 
+    //                 subject:  "Bonus/Stock Split Happens in Market"});
     if (cName.indexOf('Sub-Division') >= 0 || cName.indexOf('Split') >= 0 || 
             cName.indexOf('Sub-division') >= 0 || cName.indexOf('split') >= 0 ||
             cName.indexOf('Bonus') >= 0) {
-        bonusArray.push({ name: cName  + ' At ' + time, linkName: detailsLink, time, 
+        bonusArray.push({ time, name: cName  + ' At ' + time, linkName: detailsLink, 
                     subject:  "Bonus/Stock Split Happens in Market"});
     } else if (cName.indexOf('Buy back') >= 0 || cName.indexOf('Buyback') >= 0 ||
                  cName.indexOf('Buy Back') >= 0) {
-        bonusArray.push({ name: cName + ' At '+ time, linkName: detailsLink, 
-                    time, subject: "Stock Buy Back Program"});
+        bonusArray.push({ time, name: cName + ' At '+ time, linkName: detailsLink, 
+                    subject: "Stock Buy Back Program"});
     } else  if (cName.indexOf('Press Release') >= 0) {
-        bonusArray.push({ name:  cName + ' At '+ time, linkName: detailsLink, 
-                time, subject: "Announcement under Regulation 30 (LODR)-Press Release / Media Release"});
+        bonusArray.push({ time, name:  cName + ' At '+ time, linkName: detailsLink, 
+                subject: "Announcement under Regulation 30 (LODR)-Press Release / Media Release"});
     } else if (cName.indexOf('Rights Issue') >= 0) {
-        bonusArray.push({ name: cName  + ' At ' + time, linkName: detailsLink, 
-                time, subject: "Rights Issued"});
+        bonusArray.push({ time, name: cName  + ' At ' + time, linkName: detailsLink, 
+                 subject: "Rights Issued"});
     }  else if (cName.indexOf("Award_of_Order") >= 0) {
-        bonusArray.push({ name: cName  + ' At ' + time, linkName: detailsLink, time, 
+        bonusArray.push({ time, name: cName  + ' At ' + time, linkName: detailsLink, 
                 subject: "New Orders for the Company"});
     }
 }
 
 function sUpdates() {
-    console.log("::Current TimesUpdates:::", new Date());
+    console.log("::Start Time:::", new Date());
     let totalRecords = xpath('//*[@id="lblann"]/table/tbody/tr[4]/td/table').length;
     exitouterloop: 
     for (let x=0;x<=totalRecords; x++) {
@@ -122,21 +126,21 @@ function sUpdates() {
 
     let finalDOMElementsArray = bonusArray;
     console.log(":::::::lastReadDOMTime::::::", lastReadDOMTime);
-    // We have to make Global Array as empty after every request
-    bonusArray = [];
-	console.error(new Date(), '>>>>>Important and latestOnlyItems<<<<<', finalDOMElementsArray);
 	if (finalDOMElementsArray.length > 0) {
+        console.error('>>>>>Important and latestOnlyItems<<<<<', finalDOMElementsArray);
 		/* Send an API Request to the Rest API with Body Content , where that will send Maik
         to subscribe users */
         postData(finalDOMElementsArray);
+        if (responseCode === 200) {
+            // We have to make Global Array as empty after every request
+            bonusArray = [];
+        }
+        
 	}
     
     /*This is to refresh the content After reading the latest content, and will click submit
         Button to make ready the DOM elements for next execution of setInterval */
-    xpath('//*[@id="btnSubmit"]')[0].click()
-    // //  // Specifically added clearTimeout to stop queing the requests in the javascript engine queue
-    timeoutObj ? clearTimeout(timeoutObj) : null;
-    // //  //Again create a New Timeout which run reuirsivery same approach
-    timeoutObj = setTimeout(sUpdates, timeLimit);     
+    xpath('//*[@id="btnSubmit"]')[0].click();
+    console.log('End time:::::', new Date()); 
 }
-sUpdates();
+timeoutObject = setInterval(sUpdates, timeLimit);
