@@ -1,3 +1,12 @@
+
+var xpath = function (xpathToExecute) {
+    var result = [];
+    var nodesSnapshot = document.evaluate(xpathToExecute, document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+    for (var i = 0; i < nodesSnapshot.snapshotLength; i++) {
+        result.push(nodesSnapshot.snapshotItem(i));
+    }
+    return result;
+}
 let responseCode = 500;
 function postData(data){
 	var ajaxRequest = new XMLHttpRequest();
@@ -16,7 +25,7 @@ let output = [];
 let bonusArray = [];
 function getBonusSplitAndBuyBack(cName,detailsLink, time, startTime) {
     //console.log(type);
-    // bonusArray.push({ name: cName  + ' At ' + time, linkName: detailsLink, time, 
+    // bonusArray.push({ time, startTime,name: cName  + ' At ' + time, linkName: detailsLink, 
     //                 subject:  "Bonus/Stock Split Happens in Market"});
     if (cName.indexOf('Sub-Division') >= 0 || cName.indexOf('Split') >= 0 || 
             cName.indexOf('Sub-division') >= 0 || cName.indexOf('split') >= 0 ||
@@ -61,8 +70,7 @@ function GetData(){
                 let moreDetails = response[x].More;
                 let cName = response[x].NEWSSUB;
 
-                if (oldRecordUploadtime == latestRecordUploadtime && 
-                        oldRecordUploadEndtime == latestRecordUploadEndtime) {
+                if (oldRecordUploadEndtime == latestRecordUploadEndtime) {
                             break;
                 } else {
                     getBonusSplitAndBuyBack(cName, link,latestRecordUploadEndtime, latestRecordUploadtime);
@@ -72,17 +80,17 @@ function GetData(){
             console.error(bonusArray.length);
             if (bonusArray.length) {
                 oldRecordUploadEndtime = bonusArray[0].time;
-                oldRecordUploadtime = startTime;
+                oldRecordUploadtime = bonusArray[0].startTime;
             }
             if (bonusArray.length > 0) {
                 console.error('>>>>>Important and latestOnlyItems<<<<<', bonusArray);
                 /* Send an API Request to the Rest API with Body Content , where that will send Maik
                 to subscribe users */
-                // postData(bonusArray);
-                // if (responseCode === 200) {
+                 postData(bonusArray);
+                 if (responseCode === 200) {
                     // We have to make Global Array as empty after every request
                     bonusArray = [];
-                //}
+                }
                 
             }
         }

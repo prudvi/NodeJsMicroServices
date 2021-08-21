@@ -3,13 +3,16 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const controller = require('./controller');
-const mail = require('./../common/mail');
+const { processResponse } = require('./../common/stockutil');
+const https = require('https');
+const { json } = require('body-parser');
+const axios = require('axios')
 
+const url = 'https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w?strCat=-1&strPrevDate=20210812&strScrip=&strSearch=P&strToDate=20210812&strType=C';
 module.exports = function(app) {   
     app.use(bodyParser.json());
     app.get('/heroes', (req, res) => { 
         console.log('Returning heroes list');
-        mail.sendMail();
         res.send(controller.heroes);
     });
     app.get('/powers', (req, res) => {
@@ -33,6 +36,18 @@ module.exports = function(app) {   
             console.log(`Hero not found.`);res.status(404).send();      
           }    
     });
+   
+    app.get('/getStockData', async (req, res) => {
+        try {
+            const response = await axios.get(url);
+            let processedData = await processResponse(response.data);
+            res.status(200).json({output: processedData});
+        } catch (err) {
+            // Handle Error Here
+            console.error(err);
+            res.status(500).json({});
+        }
+    })
     app.post('/receiveData', async (req, res) => { 
         let data = req.body.data;
         //{AnnualReport: [], presentation: [], outcomes: [], topImportant: []}

@@ -10,7 +10,11 @@ app.use(function(req, res, next) {
   next();
 });
 const routes = require('./api/routes');
+const scheduler = require('./common/scheduler');
+//const stocks= require('./api/stockAPI');
 routes(app);
+//routes(stocks);
 app.listen(port, function() { 
-      console.log('Server started on port: ' + port);
+    console.log('Server started on port: ' + port);
+    
 });

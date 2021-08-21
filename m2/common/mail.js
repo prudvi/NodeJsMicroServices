@@ -17,15 +17,16 @@ async function main(data) {
     service: 'gmail',
     host: 'smtp.gmail.com',
     auth: {
-      user: 'udayarekhamulinti@gmail.com',
-      pass: ''
+      //pudvirrkm712, Test123r
+      user: 'pudvirrkm712@gmail.com',
+      pass: 'Test123r'
     }
   }));
 
   let emailBody = emailContent1 + subjectText + emailContent2
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: 'udayarekhamulinti@gmail.com', // sender address
+    from: 'pudvirrkm712@gmail.com', // sender address
     to: "prudvi2k7@gmail.com", // list of receivers
     subject: data[0].subject, // Subject line
     //text: subjectText, // plain text body
